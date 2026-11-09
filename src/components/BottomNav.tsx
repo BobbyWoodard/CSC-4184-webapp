@@ -1,7 +1,10 @@
 import { NavLink } from "react-router";
 import { House, Bell, UserRound } from "lucide-react";
+import { useUnreadCount } from "../notificationStore";
+import "../notifications.css";
 
 function BottomNav() {
+    const unread = useUnreadCount();
     return (
         <nav className="bottom-nav">
         <NavLink to="/" end className="nav-item">
@@ -10,7 +13,10 @@ function BottomNav() {
         </NavLink>
 
         <NavLink to="/notifications" className="nav-item">
-            <Bell size={24} />
+            <span className="notif-bell-wrap">
+                <Bell size={24} />
+                {unread > 0 && <span className="notif-badge">{unread}</span>}
+            </span>
             <span>Notifications</span>
         </NavLink>
 
