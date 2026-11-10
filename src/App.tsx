@@ -14,6 +14,8 @@ import GamePage from "./pages/GamePage";
 import ForumPage from "./pages/ForumPage";
 import ThreadPage from "./pages/ThreadPage";
 import BottomNav from "./components/BottomNav";
+import VotingPage from "./pages/VotingPage";
+import VoteFeaturePage from "./pages/VoteFeaturePage";
 
 import "./App.css";
 
@@ -57,6 +59,11 @@ function App() {
                   path="/games/:gameId/forum/:threadId"
                   element={<ThreadPage />}
                 />
+                <Route
+                  path="/games/:gameId/voting"
+                  element={<VotingPage />}
+                />
+                <Route path = "/games/:gameId/voting/:voteId" element={<VoteFeaturePage />} />
                 
 
                 <Route path="*" element={<Navigate to="/" replace />} />
