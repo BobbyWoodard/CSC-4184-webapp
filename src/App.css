@@ -3,7 +3,7 @@
   max-width: 390px;
   height: 100dvh;
   margin: 0 auto;
-  background: white;
+  background: var(--background);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -217,6 +217,7 @@
 }
 
 .game-count {
+  margin-top: -35px;
   background: var(--mint);
   color: #3d577d;
   border-radius: 14px;
@@ -233,6 +234,7 @@
 }
 
 .games-grid {
+  margin-top: -30px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 15px;
@@ -298,12 +300,20 @@
   color: var(--teal);
 }
 
-.add-game-card {
-  min-height: 190px;
-  border: 2px dashed var(--teal);
-  border-radius: 15px;
-  background: var(--mint);
-  color: var(--navy);
+.add-game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-game-button {
+  position: absolute;
+  border: 1px solid var(--navy);
+  width: 80px;
+  bottom: 80px;
+  border-radius: 35px;
+  background: var(--navy);
+  color: rgb(249, 247, 247);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -313,22 +323,18 @@
 }
 
 .add-game-icon {
-  width: 52px;
-  height: 52px;
-  background: white;
+  width: 40px;
+  height: 40px;
+  background: var(--navy);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.add-game-card h2 {
-  font-size: 15px;
-  margin: 0;
-}
-
-.add-game-card span {
-  font-size: 11px;
+.add-game-button h2 {
+  font-size: 10px;
+  margin-top: -10px;
 }
 
 .modal-overlay {

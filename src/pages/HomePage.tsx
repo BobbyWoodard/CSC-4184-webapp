@@ -67,36 +67,38 @@ function HomePage() {
 
             <div className="games-grid">
                 {games.map((game) => (
-                <Link
-                    to={`/games/${game.id}`}
-                    className="game-card"
-                    key={game.id}
-                >
-                    <div
-                    className={`game-card-art game-art--${defaultGames.some(
-                        (g) => g.id === game.id
-                    ) ? game.id : "default"}`}
+                    <Link
+                        to={`/games/${game.id}`}
+                        className="game-card"
+                        key={game.id}
                     >
-                    <Gamepad2 size={38} />
-                    <span>EXPLORE COMMUNITY</span>
-                    </div>
+                        <div
+                        className={`game-card-art game-art--${defaultGames.some(
+                            (g) => g.id === game.id
+                        ) ? game.id : "default"}`}
+                        >
+                        <Gamepad2 size={38} />
+                        <span>EXPLORE COMMUNITY</span>
+                        </div>
 
-                    <div className="game-card-info">
-                    <h2>{game.name}</h2>
-                    <span>View community →</span>
-                    </div>
-                </Link>
+                        <div className="game-card-info">
+                        <h2>{game.name}</h2>
+                        <span>View community →</span>
+                        </div>
+                    </Link>
                 ))}
-
+            </div>
+            <div className="add-game-container">
                 <button
-                className="add-game-card"
-                onClick={() => setShowAddGame(true)}
+                    className="add-game-button"
+                    onClick={() => setShowAddGame(true)}
                 >
-                <div className="add-game-icon">
-                    <Plus size={34} />
-                </div>
-                <h2>Add Game</h2>
-                <span>Add another community</span>
+                    <div className="add-game-icon">
+                        <Plus size={60} />
+                    </div>
+                    
+                    <h2>Add Game</h2>
+                    
                 </button>
             </div>
 
