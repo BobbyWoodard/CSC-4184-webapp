@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
-import { ArrowLeft, Map, Palette, Users } from "lucide-react";
+import { ArrowLeft, Map, Palette, Users, TreeDeciduous, Swords, Laser} from "lucide-react";
 import { getGameName } from "../forumStore";
 import { getVote } from "../votingStore";
 import "../voting.css";
@@ -26,6 +26,9 @@ function VoteFeaturePage() {
   const getIcon = (icon: string) => {
     if (icon === "palette") return <Palette size={34} />;
     if (icon === "users") return <Users size={34} />;
+    if (icon === "tree") return <TreeDeciduous size={34} />;
+    if (icon === "sword") return <Swords size={34} />;
+    if (icon === "laser") return <Laser size={34} />;
     return <Map size={34} />;
   };
 

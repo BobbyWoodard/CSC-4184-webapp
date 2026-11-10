@@ -89,7 +89,7 @@
 }
 
 .vote-status--closed {
-  background: #dfe6f1;
+  background: #e0e2ff;
   color: var(--navy);
 }
 
@@ -123,7 +123,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 500px;
+  min-height: 335px;
   padding: 16px 10px;
   border: 2px solid #eee;
   border-radius: 15px;
@@ -157,7 +157,7 @@
   display: flex;
   align-items: end;
   width: 34px;
-  height: 110px;
+  height: 100px;
   margin-top: auto;
   overflow: hidden;
   border-radius: 7px 7px 0 0;
@@ -190,12 +190,12 @@
 }
 
 .vote-option.selected .vote-select-button {
-  background: var(--purple);
+  background: var(--teal);
 }
 
 .vote-confirmation {
   margin: 20px 0 0;
-  color: var(--teal);
+  color: var(--navy);
   text-align: center;
   font-size: 13px;
   font-weight: 600;
