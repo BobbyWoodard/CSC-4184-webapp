@@ -16,6 +16,7 @@ import ThreadPage from "./pages/ThreadPage";
 import BottomNav from "./components/BottomNav";
 import VotingPage from "./pages/VotingPage";
 import VoteFeaturePage from "./pages/VoteFeaturePage";
+import UpdatesPage from "./pages/UpdatesPage.tsx";
 
 import "./App.css";
 
@@ -64,7 +65,7 @@ function App() {
                   element={<VotingPage />}
                 />
                 <Route path = "/games/:gameId/voting/:voteId" element={<VoteFeaturePage />} />
-                
+                <Route path="/games/:gameId/updates" element={<UpdatesPage />} />
 
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>

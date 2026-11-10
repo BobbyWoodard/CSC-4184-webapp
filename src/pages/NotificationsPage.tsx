@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import {
-  Search,
-  SlidersHorizontal,
-  ChevronRight,
-  CheckCheck,
-} from "lucide-react";
+import { Search, ChevronRight, CheckCheck } from "lucide-react";
 import {
   notifications,
   markRead,
   markAllRead,
   useReadIds,
+  GAMES,
+  gameNameFromId,
 } from "../notificationStore";
 import type { NotificationType } from "../notificationStore";
 import "../notifications.css";
@@ -22,12 +19,6 @@ const FILTERS: { key: NotifFilter; label: string }[] = [
   { key: "unread", label: "Unread" },
   { key: "patch", label: "Patch notes" },
   { key: "voting", label: "Voting" },
-];
-
-const GAMES = [
-  { id: "game-1", name: "Game 1" },
-  { id: "game-2", name: "Game 2" },
-  { id: "game-3", name: "Game 3" },
 ];
 
 function NotificationsPage() {
@@ -44,7 +35,9 @@ function NotificationsPage() {
       filter === "all" ? true : filter === "unread" ? isUnread : n.type === filter;
     const matchesQuery =
       normalized === "" ||
-      `${n.title} ${n.body} ${n.gameName}`.toLowerCase().includes(normalized);
+      `${n.title} ${n.body} ${gameNameFromId(n.gameId)}`
+        .toLowerCase()
+        .includes(normalized);
     return matchesFilter && matchesQuery;
   });
 
@@ -64,7 +57,6 @@ function NotificationsPage() {
       </label>
 
       <div className="notif-filters" role="group" aria-label="Filter notifications">
-        <SlidersHorizontal size={18} aria-hidden="true" />
         {FILTERS.map((f) => (
           <button
             key={f.key}
@@ -114,7 +106,7 @@ function NotificationsPage() {
               </li>
             );
           })}
-        </ul>
+                  </ul>
       )}
 
       <h2 className="notif-header">Updates by game</h2>

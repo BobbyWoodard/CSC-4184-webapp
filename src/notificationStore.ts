@@ -4,64 +4,117 @@ export type NotificationType = "patch" | "voting" | "general";
 
 export interface AppNotification {
   id: string;
-  gameName: string;
+  gameId: string;
   type: NotificationType;
   title: string;
   body: string;
+  details: string[];
   time: string;
   to: string;
+}
+
+export const GAMES = [
+  { id: "minecraft", name: "Minecraft" },
+  { id: "fortnite", name: "Fortnite" },
+  { id: "deadlock", name: "Deadlock" },
+];
+
+export function gameNameFromId(gameId: string | undefined) {
+  const found = GAMES.find((g) => g.id === gameId);
+  if (found) return found.name;
+  if (!gameId) return "Game";
+  return gameId
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 export const notifications: AppNotification[] = [
   {
     id: "n1",
-    gameName: "Game 2",
+    gameId: "minecraft",
     type: "patch",
-    title: "Game 2 Patch Notes",
-    body: "Version 1.4 adds the Archer enemy and rebalances sword damage.",
+    title: "Minecraft Patch Notes",
+    body: "Villager trades now restock correctly and caves are easier to see.",
+    details: [
+      "Villagers now restock trades correctly after a workstation is reclaimed.",
+      "Improved lighting in deep caves.",
+      "Fixed a crash when opening a bundle in a full inventory.",
+    ],
     time: "2 hours ago",
-    to: "/games/game-2/updates",
+    to: "/games/minecraft/updates",
   },
   {
     id: "n2",
-    gameName: "Game 1",
+    gameId: "fortnite",
     type: "voting",
-    title: "Game 1 Voting Result",
-    body: "Feature B won with 45% of the vote.",
+    title: "Fortnite Voting Result",
+    body: "Players voted to bring back the old map locations.",
+    details: [
+      "Bring back old map locations won with 52% of the vote.",
+      "Map changes for the next season will be announced soon.",
+    ],
     time: "Yesterday",
-    to: "/games/game-1/voting",
+    to: "/games/fortnite/voting",
   },
   {
     id: "n3",
-    gameName: "Game 2",
-    type: "voting",
-    title: "Game 2 Voting Is Live",
-    body: "Pick the next feature: Swordsman, Archer, or Co-op raid.",
+    gameId: "deadlock",
+    type: "patch",
+    title: "Deadlock Patch Notes",
+    body: "Hero ability balance changes and shorter matchmaking waits.",
+    details: [
+      "Rebalanced ability cooldowns for several heroes.",
+      "Reduced matchmaking wait times at peak hours.",
+      "Fixed a bug where the shop did not close after respawn.",
+    ],
     time: "2 days ago",
-    to: "/games/game-2/voting",
+    to: "/games/deadlock/updates",
   },
   {
     id: "n4",
-    gameName: "Game 1",
-    type: "patch",
-    title: "Game 1 Patch Notes",
-    body: "Fixes a bug where co-op raid invites would not send.",
+    gameId: "minecraft",
+    type: "voting",
+    title: "Minecraft Voting Is Live",
+    body: "Vote on the next community feature.",
+    details: [
+      "Voting closes Friday at 11:59 PM.",
+      "Options: a new biome, a boats overhaul, or new villager jobs.",
+    ],
     time: "3 days ago",
-    to: "/games/game-1/updates",
+    to: "/games/minecraft/voting",
   },
   {
     id: "n5",
-    gameName: "Game 3",
+    gameId: "fortnite",
+    type: "patch",
+    title: "Fortnite Patch Notes",
+    body: "Weapon tuning and a fix for emote lag.",
+    details: [
+      "Tuned damage on two weapons.",
+      "Fixed emote lag in lobbies.",
+      "Added a new report option for lobby chat.",
+    ],
+    time: "4 days ago",
+    to: "/games/fortnite/updates",
+  },
+  {
+    id: "n6",
+    gameId: "deadlock",
     type: "general",
-    title: "Game 3 Scheduled Maintenance",
+    title: "Deadlock Scheduled Maintenance",
     body: "Servers will be down Friday from 2 to 4 AM.",
+    details: [
+      "Servers will be offline Friday from 2 to 4 AM.",
+      "Ranked queues close 30 minutes earlier.",
+    ],
     time: "Last week",
-    to: "/games/game-3/updates",
+    to: "/games/deadlock/updates",
   },
 ];
 
 const STORAGE_KEY = "readNotificationIds";
-const DEFAULT_READ = ["n4", "n5"];
+const DEFAULT_READ = ["n4", "n5", "n6"];
 
 function load(): string[] {
   try {

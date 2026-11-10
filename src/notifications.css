@@ -145,3 +145,23 @@
   line-height: 16px;
   text-align: center;
 }
+button.notif-item {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.notif-page .back-button { margin-bottom: 16px; }
+
+.notif-details {
+  margin: 6px 4px 0;
+  padding: 12px 16px;
+  background: var(--mint);
+  color: var(--navy);
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.notif-details ul { margin: 0 0 8px; padding-left: 18px; }
+.notif-details-link { color: var(--navy); font-weight: 700; }
