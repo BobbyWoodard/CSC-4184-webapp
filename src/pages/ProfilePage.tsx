@@ -74,8 +74,8 @@ function ProfilePage({ onLogout }: ProfilePageProps) {
                             <Bell size={21} />
                         </div>
                         <div className="settings-description">
-                            <strong>Notifications</strong>
-                            <span>Receive updates and alerts</span>
+                            <strong>Push Notifications</strong>
+                            <span>Receive updates and alerts when the app is closed</span>
                         </div>
                         <button
                         className={`toggle-switch ${notifications ? "enabled" : ""}`}
