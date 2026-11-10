@@ -72,7 +72,7 @@ function load(): string[] {
   }
 }
 
-let readIds: string[] = DEFAULT_READ;
+let readIds: string[] = load();
 const listeners = new Set<() => void>();
 
 function save() {

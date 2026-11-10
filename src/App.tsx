@@ -11,6 +11,8 @@ import HomePage from "./pages/HomePage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
 import GamePage from "./pages/GamePage";
+import ForumPage from "./pages/ForumPage";
+import ThreadPage from "./pages/ThreadPage";
 import BottomNav from "./components/BottomNav";
 
 import "./App.css";
@@ -50,6 +52,11 @@ function App() {
                 />
 
                 <Route path="/games/:gameId" element={<GamePage />} />
+                <Route path="/games/:gameId/forum" element={<ForumPage />} />
+                <Route
+                  path="/games/:gameId/forum/:threadId"
+                  element={<ThreadPage />}
+                />
                 
 
                 <Route path="*" element={<Navigate to="/" replace />} />

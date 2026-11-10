@@ -4,7 +4,6 @@ import {
   MessagesSquare,
   Vote,
   Newspaper,
-  ChevronRight,
 } from "lucide-react";
 
 function GamePage() {
