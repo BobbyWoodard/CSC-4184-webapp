@@ -87,8 +87,8 @@ export const communityVotes: CommunityVote[] = [
     gameId: "fortnite",
     title: "Choose the next Battle Pass theme",
     description: "Help decide what theme will be added to Fortnite next.",
-    status: "Closed",
-    endsAt: "Closed 1 week ago",
+    status: "Open",
+    endsAt: "2 days remaining",
     options: [
       {
         id: "space",
