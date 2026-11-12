@@ -1,32 +1,12 @@
-# React + TypeScript + Vite
+# Instructions to run:
+clone repo
+in local repo terminal, run:
+npm install
+npm run dev
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This will open the localhost to use the webapp.
+The sample login info is given, and click on icons to interact and navigate pages.
 
-Currently, two official plugins are available:
+# Team Contribution Statement:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Bobby Woodard: setup the react + vite basis. Created login page, home page, add games functionality, profile page with settings and logout, and the game home page (buttons for forum, voting, updates).
