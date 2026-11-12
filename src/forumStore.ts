@@ -32,7 +32,7 @@ const MINUTE = 60 * 1000;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
-/* ---------- Game name lookup ---------- */
+/* Game name lookup  */
 
 export function getGameName(gameId: string): string {
   try {
@@ -51,103 +51,217 @@ export function getGameName(gameId: string): string {
     .join(" ");
 }
 
-/* ---------- Starter content for each game ---------- */
+/*  Starter content for each game */
 
-function seedThreads(gameId: string): ForumThread[] {
-  const now = Date.now();
-  const game = getGameName(gameId);
-  const msg = (author: string, text: string, ago: number, i: number) => ({
-    id: `${gameId}-seed-${i}`,
-    author,
-    text,
-    createdAt: now - ago,
-  });
+// [author, text, how long ago it was posted]
+type SeedMessage = [string, string, number];
 
-  return [
+interface SeedThread {
+  key: string;
+  title: string;
+  category: ThreadCategory;
+  messages: SeedMessage[];
+}
+
+const GAME_SEEDS: Record<string, SeedThread[]> = {
+  minecraft: [
     {
-      id: `${gameId}-update`,
+      key: "update",
+      title: "Did you read the new patch notes?",
+      category: "discussion",
+      messages: [
+        ["blockbuilder", "Did anyone read the patch notes that dropped this morning?", 3 * HOUR],
+        ["creeper_hugs", "No, what changed?", 2 * HOUR + 40 * MINUTE],
+        ["redstone_rae", "Villagers restock their trades properly now, and caves are way easier to see.", 2 * HOUR + 15 * MINUTE],
+        ["blockbuilder", "Finally. My trading hall has been broken for weeks.", 1 * HOUR + 50 * MINUTE],
+      ],
+    },
+    {
+      key: "vote",
+      title: "What are you voting for?",
+      category: "ideas",
+      messages: [
+        ["creeper_hugs", "Voting is live! Co-op Mode, Character Customization, or New Biomes. What are you all picking?", 6 * HOUR],
+        ["blockbuilder", "Co-op Mode. Playing with friends across Bedrock and Java would be huge.", 5 * HOUR],
+        ["diamondfinder", "New Biomes, easy pick. And Witch's Swamp in the biome vote, obviously.", 4 * HOUR + 30 * MINUTE],
+        ["redstone_rae", "Medieval Mountains for me. Castles and nicer dragons? Yes please.", 4 * HOUR],
+      ],
+    },
+    {
+      key: "chunks",
+      title: "Chunks not loading on our server",
+      category: "bug",
+      messages: [
+        ["redstone_rae", "Anyone else getting chunks that won't load near spawn? Our server map has big holes in it.", 1 * DAY + 2 * HOUR],
+        ["creeper_hugs", "Same here. Lowering render distance and rejoining fixed it for us.", 1 * DAY],
+      ],
+    },
+    {
+      key: "diamonds",
+      title: "Best Y level for diamonds?",
+      category: "help",
+      messages: [
+        ["newminer_jo", "Just started a new survival world. What height should I mine at for diamonds?", 3 * DAY],
+        ["diamondfinder", "Around Y -58. Strip mine there and you'll find them way faster.", 3 * DAY - 2 * HOUR],
+        ["redstone_rae", "Bring a water bucket. There's lava everywhere that low.", 2 * DAY + 20 * HOUR],
+      ],
+    },
+  ],
+
+  fortnite: [
+    {
+      key: "old-map",
+      title: "The old map is coming back!",
+      category: "discussion",
+      messages: [
+        ["dropzone", "Did you see the voting results? The old map locations are coming back!", 3 * HOUR],
+        ["nobuild_nina", "Wait, really? I missed the vote.", 2 * HOUR + 40 * MINUTE],
+        ["victoryvee", "Yep, it won by a lot. Can't wait to drop at all the classic spots again.", 2 * HOUR + 15 * MINUTE],
+        ["dropzone", "Love that our votes actually decided it.", 1 * HOUR + 50 * MINUTE],
+      ],
+    },
+    {
+      key: "vote",
+      title: "Which Battle Pass theme are you voting for?",
+      category: "ideas",
+      messages: [
+        ["victoryvee", "Battle Pass voting is open. Space Odyssey, Pirate Adventure, or Wild West?", 6 * HOUR],
+        ["dropzone", "Pirate Adventure. Ships and treasure would be so fun.", 5 * HOUR],
+        ["buildfast_ty", "Space Odyssey, just for the futuristic weapons.", 4 * HOUR + 30 * MINUTE],
+        ["nobuild_nina", "Wild West duels would be amazing though.", 4 * HOUR],
+      ],
+    },
+    {
+      key: "emote-lag",
+      title: "Lag whenever someone emotes",
+      category: "bug",
+      messages: [
+        ["squadfill_sam", "Anyone else getting a lag spike whenever someone emotes mid-match?", 1 * DAY + 2 * HOUR],
+        ["victoryvee", "Yes! The new patch notes say it's fixed, so make sure your game is updated.", 1 * DAY],
+        ["squadfill_sam", "Updated and it's gone. Thanks!", 23 * HOUR],
+      ],
+    },
+    {
+      key: "zero-build",
+      title: "Build or Zero Build for a beginner?",
+      category: "help",
+      messages: [
+        ["squadfill_sam", "Just started playing. Should I learn building or stick to Zero Build?", 3 * DAY],
+        ["buildfast_ty", "Start in Zero Build to learn the guns and the map. Practice building in Creative on the side.", 3 * DAY - 2 * HOUR],
+        ["nobuild_nina", "Zero Build is way less stressful. I never went back.", 2 * DAY + 20 * HOUR],
+      ],
+    },
+  ],
+
+  deadlock: [
+    {
+      key: "update",
       title: "Did you see the new update?",
       category: "discussion",
       messages: [
-        msg("pixelpanda", "Did anyone see the update that dropped this morning?", 3 * HOUR, 1),
-        msg("nightowl_22", "No, what changed?", 2 * HOUR + 40 * MINUTE, 2),
-        msg(
-          "ravenclaw88",
-          "They added a new character! The patch notes say she's a support class.",
-          2 * HOUR + 15 * MINUTE,
-          3
-        ),
-        msg("pixelpanda", "Finally. Team comps were getting stale.", 1 * HOUR + 50 * MINUTE, 4),
+        ["soulcollector", "Did anyone see the patch that dropped last night?", 3 * HOUR],
+        ["laneking", "No, what changed?", 2 * HOUR + 40 * MINUTE],
+        ["urnrunner", "A bunch of hero ability balance changes, and matchmaking waits are shorter.", 2 * HOUR + 15 * MINUTE],
+        ["soulcollector", "Shorter queues alone make it worth it.", 1 * HOUR + 50 * MINUTE],
       ],
     },
     {
-      id: `${gameId}-vote`,
+      key: "maintenance",
+      title: "Servers down Friday morning?",
+      category: "discussion",
+      messages: [
+        ["newhero_ash", "Got a notification about maintenance. Does anyone know how long it'll be?", 6 * HOUR],
+        ["laneking", "Friday from 2 to 4 AM. Shouldn't bother anyone who actually sleeps.", 5 * HOUR],
+        ["midbossmara", "Guess I'm sleeping for once.", 4 * HOUR],
+      ],
+    },
+    {
+      key: "crash",
+      title: "Crashing when the match loads",
+      category: "bug",
+      messages: [
+        ["urnrunner", "Anyone else crashing right when the match loads? It happens about half the time for me.", 1 * DAY + 2 * HOUR],
+        ["laneking", "Same. Verifying the game files in Steam fixed it for me.", 1 * DAY],
+      ],
+    },
+    {
+      key: "laning",
+      title: "How do I stop losing my lane?",
+      category: "help",
+      messages: [
+        ["newhero_ash", "I keep losing lane every game. Any tips?", 3 * DAY],
+        ["laneking", "Focus on last-hitting troopers and denying souls. Don't take big fights until you have a couple of items.", 3 * DAY - 2 * HOUR],
+        ["midbossmara", "Watch the minimap too. If your laner disappears, they're probably coming for you.", 2 * DAY + 20 * HOUR],
+      ],
+    },
+  ],
+};
+
+// Used for any game a user adds that isn't listed above.
+function genericSeeds(game: string): SeedThread[] {
+  return [
+    {
+      key: "update",
+      title: "Did you see the new update?",
+      category: "discussion",
+      messages: [
+        ["pixelpanda", "Did anyone see the update that dropped this morning?", 3 * HOUR],
+        ["nightowl_22", "No, what changed?", 2 * HOUR + 40 * MINUTE],
+        ["ravenclaw88", "They added a new character! The patch notes say she's a support class.", 2 * HOUR + 15 * MINUTE],
+        ["pixelpanda", "Finally. Team comps were getting stale.", 1 * HOUR + 50 * MINUTE],
+      ],
+    },
+    {
+      key: "vote",
       title: "What should we vote for next?",
       category: "ideas",
       messages: [
-        msg(
-          "quietstorm",
-          "Voting opens soon. I'm hoping for a new map. What are you all picking?",
-          6 * HOUR,
-          5
-        ),
-        msg("mossy", "Co-op mode, no question.", 5 * HOUR, 6),
-        msg(
-          "lagslayer",
-          "New map for me too. We've played the current ones to death.",
-          4 * HOUR,
-          7
-        ),
+        ["quietstorm", "Voting opens soon. I'm hoping for a new map. What are you all picking?", 6 * HOUR],
+        ["mossy", "Co-op mode, no question.", 5 * HOUR],
+        ["lagslayer", "New map for me too. We've played the current ones to death.", 4 * HOUR],
       ],
     },
     {
-      id: `${gameId}-crash`,
+      key: "crash",
       title: "Crashing on the loading screen",
       category: "bug",
       messages: [
-        msg(
-          "lagslayer",
-          "Anyone else crashing on the loading screen since the update? It happens about half the time for me.",
-          1 * DAY + 2 * HOUR,
-          8
-        ),
-        msg(
-          "pixelpanda",
-          "Same here. Restarting fixed it for me, and the devs said a hotfix is coming this week.",
-          1 * DAY,
-          9
-        ),
+        ["lagslayer", "Anyone else crashing on the loading screen since the update? It happens about half the time for me.", 1 * DAY + 2 * HOUR],
+        ["pixelpanda", "Same here. Restarting fixed it for me, and the devs said a hotfix is coming this week.", 1 * DAY],
       ],
     },
     {
-      id: `${gameId}-tips`,
+      key: "tips",
       title: "Tips for new players?",
       category: "help",
       messages: [
-        msg(
-          "mossy",
-          `Just picked up ${game}. What do you wish you knew when you started?`,
-          3 * DAY,
-          10
-        ),
-        msg(
-          "nightowl_22",
-          "Check the controls in settings first. The defaults aren't great.",
-          3 * DAY - 2 * HOUR,
-          11
-        ),
-        msg(
-          "ravenclaw88",
-          "Play with friends early on. It's way easier to learn when someone can explain things.",
-          2 * DAY + 20 * HOUR,
-          12
-        ),
+        ["mossy", `Just picked up ${game}. What do you wish you knew when you started?`, 3 * DAY],
+        ["nightowl_22", "Check the controls in settings first. The defaults aren't great.", 3 * DAY - 2 * HOUR],
+        ["ravenclaw88", "Play with friends early on. It's way easier to learn when someone can explain things.", 2 * DAY + 20 * HOUR],
       ],
     },
   ];
 }
 
-/* ---------- Store ---------- */
+function seedThreads(gameId: string): ForumThread[] {
+  const now = Date.now();
+  const game = getGameName(gameId);
+  const templates = GAME_SEEDS[game.toLowerCase()] ?? genericSeeds(game);
+
+  return templates.map((t) => ({
+    id: `${gameId}-${t.key}`,
+    title: t.title,
+    category: t.category,
+    messages: t.messages.map(([author, text, ago], i) => ({
+      id: `${gameId}-${t.key}-${i}`,
+      author,
+      text,
+      createdAt: now - ago,
+    })),
+  }));
+}
+
+/*  Store  */
 
 function load(): ForumState {
   try {
@@ -232,7 +346,7 @@ export function useThreads(gameId: string): ForumThread[] {
   return useSyncExternalStore(subscribe, () => getThreads(gameId));
 }
 
-/* ---------- Helpers ---------- */
+/* Helpers */
 
 export function lastActivity(thread: ForumThread): number {
   return thread.messages[thread.messages.length - 1]?.createdAt ?? 0;
