@@ -10,8 +10,8 @@ function VoteFeaturePage() {
   const gameName = getGameName(gameId);
   const vote = getVote(voteId);
 
+  const [options, setOptions] = useState(() =>vote?.options ?? []);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
-
   if (!vote) {
     return (
       <div className="voting-page vote-not-found">
@@ -22,6 +22,22 @@ function VoteFeaturePage() {
       </div>
     );
   }
+  const handleVote = (optionId: string) => {
+    if(vote.status !== "Open" || optionId === selectedOptionId) return;
+    setOptions((currentOptions) =>
+    currentOptions.map((option) => {
+      if (option.id === optionId) {
+        return { ...option, votes: option.votes + 1 };
+      }
+      if (option.id === selectedOptionId) {
+        return { ...option, votes: Math.max(0, option.votes -1) };
+      }
+      return option;
+    }));
+    setSelectedOptionId(optionId);
+  };
+  
+  const totalVotes = options.reduce((total, option) => total + option.votes, 0);
 
   const getIcon = (icon: string) => {
     if (icon === "palette") return <Palette size={34} />;
@@ -47,8 +63,9 @@ function VoteFeaturePage() {
       </header>
 
       <section className="vote-options" aria-label="Feature options">
-        {vote.options.map((option) => {
+        {options.map((option) => {
           const selected = selectedOptionId === option.id;
+          const percentage = Math.round((option.votes / totalVotes) * 100);
 
           return (
             <article
@@ -60,16 +77,16 @@ function VoteFeaturePage() {
               <h2>{option.title}</h2>
               <p>{option.description}</p>
 
-              <div className="vote-bar" aria-label={`${option.percent}% of votes`}>
-                <span style={{ height: `${option.percent}%` }} />
+              <div className="vote-bar" aria-label={`${percentage}% of votes`}>
+                <span style={{ height: `${percentage}%` }} />
               </div>
 
-              <strong className="vote-percent">{option.percent}%</strong>
+              <strong className="vote-percent">{percentage}%</strong>
 
               <button
                 type="button"
                 className="vote-select-button"
-                onClick={() => setSelectedOptionId(option.id)}
+                onClick={() => handleVote(option.id)}
                 disabled={vote.status !== "Open"}
               >
                 {selected ? "Your vote" : "Vote for this"}

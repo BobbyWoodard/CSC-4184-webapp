@@ -112,14 +112,18 @@
   color: var(--teal);
 }
 
+
 .vote-options {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  margin-top: 26px;
+  margin-top: 30px;
+  align-items: stretch;
 }
 
 .vote-option {
+  box-sizing:border-box;
+  height: 360px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,13 +148,17 @@
   margin: 12px 0 6px;
   color: var(--navy);
   font-size: 14px;
+  min-height: 2.6em;
+  margin: 12px 0 6px;
 }
 
 .vote-option p {
   margin: 0;
   color: #666;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 1.4;
+  min-height: 7em;
+  margin: 0;
 }
 
 .vote-bar {
@@ -158,6 +166,7 @@
   align-items: end;
   width: 34px;
   height: 100px;
+  flex: 0 0 100px;
   margin-top: auto;
   overflow: hidden;
   border-radius: 7px 7px 0 0;

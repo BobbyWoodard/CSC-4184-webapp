@@ -5,7 +5,7 @@ export type VoteOption = {
   title: string;
   description: string;
   icon: "palette" | "users" | "map" | "tree" | "sword" | "laser";
-  percent: number;
+  votes: number;
 };
 
 export type CommunityVote = {
@@ -32,21 +32,21 @@ export const communityVotes: CommunityVote[] = [
         title: "Character Customization",
         description: "New outfits, colors, and emotes.",
         icon: "palette",
-        percent: 31,
+        votes: 31,
       },
       {
         id: "coop",
         title: "Co-op Mode",
         description: "Play the game with your friends in Bedrock and Java.",
         icon: "users",
-        percent: 48,
+        votes: 47,
       },
       {
         id: "biomes",
         title: "New Biomes",
         description: "New areas, creatures, and resources.",
         icon: "map",
-        percent: 21,
+        votes: 21,
       },
     ],
   },
@@ -63,25 +63,56 @@ export const communityVotes: CommunityVote[] = [
             title: "Dappled forest",
             description: "A forest with autumn landscapes and soft warm-gray wood.",
             icon: "tree",
-            percent: 67,
+            votes: 67,
         },
         {
             id: "mountains",
             title: "Medieval mountains",
             description: "A mountain range with castles, villages, and (nicer)dragons.",
             icon: "sword",
-            percent: 25,
+            votes: 25,
         },
         {
             id: "swamp",
             title: "Witch's swamp",
             description: "A swamp with witches, cauldrons, and spooky trees.",
             icon: "laser",
-            percent: 8,
+            votes: 8,
 
         },
     ],
   },
+  {
+    id: "vote-3", 
+    gameId: "fortnite",
+    title: "Choose the next Battle Pass theme",
+    description: "Help decide what theme will be added to Fortnite next.",
+    status: "Closed",
+    endsAt: "Closed 1 week ago",
+    options: [
+      {
+        id: "space",
+        title: "Space Odyssey",
+        description: "A space-themed battle pass with futuristic skins and weapons.",
+        icon: "laser",
+        votes: 45,
+      },
+      {
+        id: "pirates",
+        title: "Pirate Adventure",
+        description: "A pirate-themed battle pass with ships, treasure, and swashbuckling skins.",
+        icon: "sword",
+        votes: 30,
+      },
+      {
+        id: "wildwest",
+        title: "Wild West",
+        description: "A western-themed battle pass with cowboy skins and duels.",
+        icon: "map",
+        votes: 25,
+      }
+    ]
+  }
 ];
 
 export function getVotesForGame(gameId: string) {
