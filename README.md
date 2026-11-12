@@ -1,12 +1,15 @@
 # Instructions to run:
 clone repo
 
+---------------------------------
+
 in local repo terminal, run:
 
 npm install
 
 npm run dev
 
+---------------------------------
 
 This will open the localhost to use the webapp.
 The sample login info is given, and click on icons to interact and navigate pages.
