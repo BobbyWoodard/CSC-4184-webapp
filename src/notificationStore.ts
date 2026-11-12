@@ -55,7 +55,7 @@ export const notifications: AppNotification[] = [
       "Map changes for the next season will be announced soon.",
     ],
     time: "Yesterday",
-    to: "/games/fortnite/voting",
+    to: "/games/fortnite/updates",
   },
   {
     id: "n3",
