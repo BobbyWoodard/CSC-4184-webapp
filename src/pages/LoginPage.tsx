@@ -16,11 +16,26 @@ function LoginPage({ onLogin }: LoginPageProps) {
         e.preventDefault();
 
         if (username === "kirby" && password === "password123") {
-        onLogin();
-        navigate("/");
-        } else {
-        setError("Invalid username or password.");
+            localStorage.setItem("currentUser", "kirby");
+            onLogin();
+            navigate("/");
+            return;
         }
+
+        const storedAccount = localStorage.getItem("user_" + username);
+
+        if (storedAccount) {
+            const account = JSON.parse(storedAccount);
+
+            if (account.password === password) {
+                localStorage.setItem("currentUser", username);
+                onLogin();
+                navigate("/");
+                return;
+            }
+        }
+
+        setError("Invalid username or password.");
     };
 
     return (
@@ -59,6 +74,17 @@ function LoginPage({ onLogin }: LoginPageProps) {
             Log In
             </button>
         </form>
+
+        <p className="login-footer">
+            Don't have an account?{" "}
+            <button
+                type="button"
+                onClick={() => navigate("/signup")}
+                className="login-signup-link"
+            >
+                Sign up
+            </button>
+        </p>
 
         <div className="demo-credentials">
             <p>Demo Account</p>

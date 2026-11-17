@@ -1,13 +1,13 @@
 import { useState } from "react";
 import {
-UserRound,
-Settings,
-LogOut,
-ChevronRight,
-ArrowLeft,
-Bell,
-Shield,
-Info,
+    UserRound,
+    Settings,
+    LogOut,
+    ChevronRight,
+    ArrowLeft,
+    Bell,
+    Shield,
+    Info,
 } from "lucide-react";
 
 interface ProfilePageProps {
@@ -19,6 +19,7 @@ type ProfileSection = "main" | "about" | "settings";
 function ProfilePage({ onLogout }: ProfilePageProps) {
     const [section, setSection] = useState<ProfileSection>("main");
     const [notifications, setNotifications] = useState(true);
+    const [showAbout, setShowAbout] = useState(false);
 
     const goBack = () => setSection("main");
 
@@ -78,10 +79,10 @@ function ProfilePage({ onLogout }: ProfilePageProps) {
                             <span>Receive updates and alerts when the app is closed</span>
                         </div>
                         <button
-                        className={`toggle-switch ${notifications ? "enabled" : ""}`}
-                        onClick={() => setNotifications(!notifications)}
-                        aria-label="Toggle notifications"
-                        aria-pressed={notifications}
+                            className={`toggle-switch ${notifications ? "enabled" : ""}`}
+                            onClick={() => setNotifications(!notifications)}
+                            aria-label="Toggle notifications"
+                            aria-pressed={notifications}
                         >
                             <span />
                         </button>
@@ -91,15 +92,53 @@ function ProfilePage({ onLogout }: ProfilePageProps) {
 
                     <div className="settings-item">
                         <div className="settings-icon">
-                            <Shield size={21} />
+                            <Info size={21} />
                         </div>
                         <div className="settings-description">
-                            <strong>Privacy</strong>
-                            <span>Account and privacy preferences</span>
+                            <strong>About this app</strong>
+                            <span>Learn more about the app and its purpose</span>
                         </div>
-                        <Info size={19} className="settings-info-icon" />
+                        <button
+                            className="settings-info-button"
+                            onClick={() => setShowAbout(true)}
+                            aria-label="More information about Kwesta"
+                        >
+                            <Info size={19} />
+                        </button>
                     </div>
                 </div>
+
+                {showAbout && (
+                    <div
+                        className="popup-overlay"
+                        onClick={() => setShowAbout(false)}
+                    >
+                        <div
+                            className="about-popup"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="popup-icon">
+                                <Info size={26} />
+                            </div>
+
+                            <h2>About this app</h2>
+
+                            <p>
+                                This is a platform designed to bring gaming
+                                communities together. Connect with other players,
+                                participate in community discussions and voting,
+                                and stay informed about the games you love.
+                            </p>
+
+                            <button
+                                className="popup-close"
+                                onClick={() => setShowAbout(false)}
+                            >
+                                Got it
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }

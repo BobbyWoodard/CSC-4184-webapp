@@ -6,7 +6,10 @@ import {
   Navigate,
 } from "react-router";
 
+import WelcomePage from "./pages/WelcomePage";
 import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+
 import HomePage from "./pages/HomePage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -40,7 +43,9 @@ function App() {
       <div className="mobile-container">
         {!isLoggedIn ? (
           <Routes>
+            <Route path="/" element={<WelcomePage />} />
             <Route path="/login" element={<LoginPage onLogin={login} />} />
+            <Route path="/signup" element={<SignupPage onLogin={login} />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         ) : (
