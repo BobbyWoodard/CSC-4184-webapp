@@ -22,6 +22,7 @@ const FILTERS: { key: UpdateFilter; label: string }[] = [
 function UpdatesPage() {
   const { gameId } = useParams();
   const gameName = gameNameFromId(gameId);
+  const hasUpdates = notifications.some((n) => n.gameId === gameId);
   const readIds = useReadIds();
 
   const [query, setQuery] = useState("");
@@ -85,7 +86,11 @@ function UpdatesPage() {
       <h2 className="notif-header">What's new?</h2>
 
       {visible.length === 0 ? (
-        <p className="notif-empty">No updates match your search.</p>
+        <p className="notif-empty">
+          {hasUpdates
+            ? "No updates match your search."
+            : `No updates yet for ${gameName}.`}
+        </p>
       ) : (
         <ul className="notif-list">
           {visible.map((n) => {

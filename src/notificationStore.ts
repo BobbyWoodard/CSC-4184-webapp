@@ -19,8 +19,17 @@ export const GAMES = [
   { id: "deadlock", name: "Deadlock" },
 ];
 
+export function getMyGames(): { id: string; name: string }[] {
+  try {
+    const saved = localStorage.getItem("myGames");
+    return saved ? JSON.parse(saved) : GAMES;
+  } catch {
+    return GAMES;
+  }
+}
+
 export function gameNameFromId(gameId: string | undefined) {
-  const found = GAMES.find((g) => g.id === gameId);
+  const found = getMyGames().find((g) => g.id === gameId);
   if (found) return found.name;
   if (!gameId) return "Game";
   return gameId

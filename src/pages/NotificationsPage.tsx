@@ -6,7 +6,7 @@ import {
   markRead,
   markAllRead,
   useReadIds,
-  GAMES,
+  getMyGames,
   gameNameFromId,
 } from "../notificationStore";
 import type { NotificationType } from "../notificationStore";
@@ -25,6 +25,7 @@ function NotificationsPage() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<NotifFilter>("all");
   const readIds = useReadIds();
+  const myGames = getMyGames();
 
   const normalized = query.trim().toLowerCase();
   const unreadCount = notifications.filter((n) => !readIds.includes(n.id)).length;
@@ -111,7 +112,7 @@ function NotificationsPage() {
 
       <h2 className="notif-header">Updates by game</h2>
       <ul className="notif-list">
-        {GAMES.map((g) => (
+        {myGames.map((g) => (
           <li key={g.id}>
             <Link to={`/games/${g.id}/updates`} className="notif-item">
               <span className="notif-text">
