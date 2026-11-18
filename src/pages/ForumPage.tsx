@@ -68,6 +68,14 @@ function ForumPage() {
         Start a thread
       </button>
 
+      {sorted.length === 0 && (
+        <div className="forum-empty">
+          <MessageCircle size={32} />
+          <h2>No threads yet</h2>
+          <p>Be the first to start a conversation about {gameName}.</p>
+        </div>
+      )}
+
       <ul className="thread-list">
         {sorted.map((thread) => {
           const last = thread.messages[thread.messages.length - 1];

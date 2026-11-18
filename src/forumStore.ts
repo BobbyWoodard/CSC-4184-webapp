@@ -197,56 +197,9 @@ const GAME_SEEDS: Record<string, SeedThread[]> = {
   ],
 };
 
-// Used for any game a user adds that isn't listed above.
-function genericSeeds(game: string): SeedThread[] {
-  return [
-    {
-      key: "update",
-      title: "Did you see the new update?",
-      category: "discussion",
-      messages: [
-        ["pixelpanda", "Did anyone see the update that dropped this morning?", 3 * HOUR],
-        ["nightowl_22", "No, what changed?", 2 * HOUR + 40 * MINUTE],
-        ["ravenclaw88", "They added a new character! The patch notes say she's a support class.", 2 * HOUR + 15 * MINUTE],
-        ["pixelpanda", "Finally. Team comps were getting stale.", 1 * HOUR + 50 * MINUTE],
-      ],
-    },
-    {
-      key: "vote",
-      title: "What should we vote for next?",
-      category: "ideas",
-      messages: [
-        ["quietstorm", "Voting opens soon. I'm hoping for a new map. What are you all picking?", 6 * HOUR],
-        ["mossy", "Co-op mode, no question.", 5 * HOUR],
-        ["lagslayer", "New map for me too. We've played the current ones to death.", 4 * HOUR],
-      ],
-    },
-    {
-      key: "crash",
-      title: "Crashing on the loading screen",
-      category: "bug",
-      messages: [
-        ["lagslayer", "Anyone else crashing on the loading screen since the update? It happens about half the time for me.", 1 * DAY + 2 * HOUR],
-        ["pixelpanda", "Same here. Restarting fixed it for me, and the devs said a hotfix is coming this week.", 1 * DAY],
-      ],
-    },
-    {
-      key: "tips",
-      title: "Tips for new players?",
-      category: "help",
-      messages: [
-        ["mossy", `Just picked up ${game}. What do you wish you knew when you started?`, 3 * DAY],
-        ["nightowl_22", "Check the controls in settings first. The defaults aren't great.", 3 * DAY - 2 * HOUR],
-        ["ravenclaw88", "Play with friends early on. It's way easier to learn when someone can explain things.", 2 * DAY + 20 * HOUR],
-      ],
-    },
-  ];
-}
-
 function seedThreads(gameId: string): ForumThread[] {
   const now = Date.now();
-  const game = getGameName(gameId);
-  const templates = GAME_SEEDS[game.toLowerCase()] ?? genericSeeds(game);
+  const templates = GAME_SEEDS[gameId] ?? [];
 
   return templates.map((t) => ({
     id: `${gameId}-${t.key}`,
