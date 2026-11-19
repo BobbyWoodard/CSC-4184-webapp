@@ -1,17 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { ArrowLeft, Map, Palette, Users, TreeDeciduous, Swords, Laser} from "lucide-react";
-import { getGameName } from "../forumStore";
+import { CURRENT_USER, getGameName } from "../forumStore";
 import { getVote } from "../votingStore";
+import type { VoteOption } from "../votingStore";
 import "../voting.css";
 
 function VoteFeaturePage() {
   const { gameId = "", voteId = "" } = useParams();
   const gameName = getGameName(gameId);
   const vote = getVote(voteId);
+  const storageKey = `community-vote:${CURRENT_USER}:${voteId}`;
 
-  const [options, setOptions] = useState(() =>vote?.options ?? []);
-  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
+  const [savedVote] = useState<SavedVote | null>(() => {
+    try {
+      const saved = localStorage.getItem(storageKey);
+      return saved ? (JSON.parse(saved) as SavedVote) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const [options, setOptions] = useState<VoteOption[]>(
+    () => savedVote?.options ?? vote?.options ?? []
+  );
+
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(
+    () => savedVote?.selectedOptionId ?? null
+  );
+
+  type SavedVote = { 
+    selectedOptionId: string | null;
+    options: VoteOption[];
+  };
+
   if (!vote) {
     return (
       <div className="voting-page vote-not-found">
@@ -22,6 +44,19 @@ function VoteFeaturePage() {
       </div>
     );
   }
+
+  useEffect(() => {
+    localStorage.setItem(
+      storageKey, JSON.stringify({
+        selectedOptionId,
+        options,
+      })
+    );
+  }, [storageKey, selectedOptionId, options]);
+
+  const isOpen = vote.status === "Open";
+  const winner =[...options].sort((a, b) => b.votes - a.votes)[0];
+
   const handleVote = (optionId: string) => {
     if(vote.status !== "Open" || optionId === selectedOptionId) return;
     setOptions((currentOptions) =>
@@ -62,6 +97,26 @@ function VoteFeaturePage() {
         <span className="vote-deadline">{vote.endsAt}</span>
       </header>
 
+      {!isOpen && (
+        <div className = {`vote-status-message vote-status-message--${vote.status.toLowerCase()}`}>
+          {vote.status === "Closed" ? (
+            <>
+            <strong> Vosting has closed. You can noo longer vote.</strong>
+            <span>
+              The community chose {winner.title}. This feature will be implemented in a future update.
+            </span>
+            </>
+          ) : (
+            <>
+            <strong> This feature has been implemented!</strong>
+            <span>
+              {winner.title} won this community vote and is now available in the game.
+            </span>
+            </>
+          )}
+          </div>
+          )}
+
       <section className="vote-options" aria-label="Feature options">
         {options.map((option) => {
           const selected = selectedOptionId === option.id;
@@ -87,9 +142,9 @@ function VoteFeaturePage() {
                 type="button"
                 className="vote-select-button"
                 onClick={() => handleVote(option.id)}
-                disabled={vote.status !== "Open"}
+                disabled={!isOpen}
               >
-                {selected ? "Your vote" : "Vote for this"}
+                {selected ? "Your vote" : isOpen ? "Vote for this" : "Voting Closed"}
               </button>
             </article>
           );

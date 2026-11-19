@@ -98,6 +98,37 @@
   color: var(--purple);
 }
 
+.vote-status-message {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 22px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.vote-status-message--closed {
+  background: #dfe6f1;
+  color: var(--navy);
+}
+
+.vote-status-message--implemented {
+  background: var(--mint);
+  color: var(--navy);
+}
+
+.vote-status-message strong {
+  font-size: 15px;
+}
+
+.vote-select-button:disabled {
+  background: #b7b7b7;
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
 .vote-list-meta {
   display: flex;
   justify-content: space-between;
