@@ -21,6 +21,21 @@ function ProfilePage({ onLogout }: ProfilePageProps) {
     const [notifications, setNotifications] = useState(true);
     const [showAbout, setShowAbout] = useState(false);
 
+    const currentUsername = localStorage.getItem("currentUser") || "kirby";
+    const storedAccount = localStorage.getItem("user_" + currentUsername);
+    
+    const profile = storedAccount
+        ? JSON.parse(storedAccount)
+        : {
+            username: "Kirby",
+            email: "kirby@example.com",
+        };
+
+    const displayName =
+        profile.username.charAt(0).toUpperCase() + profile.username.slice(1);
+
+    const avatarLetter = displayName.charAt(0).toUpperCase();
+
     const goBack = () => setSection("main");
 
     if (section === "about") {
@@ -38,17 +53,19 @@ function ProfilePage({ onLogout }: ProfilePageProps) {
                 </div>
 
                 <div className="about-card">
-                    <div className="profile-avatar">K</div>
-                    <h2>Kirby</h2>
-                    <p>kirby@example.com</p>
+                    <div className="profile-avatar">{avatarLetter}</div>
+                    <h2>{displayName}</h2>
+                    <p>{profile.email}</p>
+
                     <div className="about-divider" />
+
                     <div className="about-detail">
                         <span>Username</span>
-                        <strong>Kirby</strong>
+                        <strong>{displayName}</strong>
                     </div>
                     <div className="about-detail">
                         <span>Email</span>
-                        <strong>kirby@example.com</strong>
+                        <strong>{profile.email}</strong>
                     </div>
                 </div>
             </div>
@@ -152,10 +169,10 @@ function ProfilePage({ onLogout }: ProfilePageProps) {
             </div>
 
             <div className="profile-summary">
-                <div className="profile-avatar">K</div>
+                <div className="profile-avatar">{avatarLetter}</div>
                 <div className="profile-summary-text">
-                    <h2>Kirby</h2>
-                    <p>kirby@example.com</p>
+                    <h2>{displayName}</h2>
+                    <p>{profile.email}</p>
                 </div>
             </div>
 

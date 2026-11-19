@@ -35,6 +35,7 @@ function App() {
 
   const logout = () => {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("currentUser");
     setIsLoggedIn(false);
   };
 
