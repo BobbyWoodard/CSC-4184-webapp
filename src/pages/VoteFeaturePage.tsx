@@ -101,7 +101,7 @@ function VoteFeaturePage() {
         <div className = {`vote-status-message vote-status-message--${vote.status.toLowerCase()}`}>
           {vote.status === "Closed" ? (
             <>
-            <strong> Vosting has closed. You can noo longer vote.</strong>
+            <strong> Voting has closed. You can no longer vote.</strong>
             <span>
               The community chose {winner.title}. This feature will be implemented in a future update.
             </span>
