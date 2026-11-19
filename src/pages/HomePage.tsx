@@ -14,8 +14,11 @@ const defaultGames: Game[] = [
 ];
 
 function HomePage() {
+    const currentUsername = localStorage.getItem("currentUser") || "kirby";
+    const gamesStorageKey = `myGames_${currentUsername}`;
+
     const [games, setGames] = useState<Game[]>(() => {
-        const saved = localStorage.getItem("myGames");
+        const saved = localStorage.getItem(gamesStorageKey);
         return saved ? JSON.parse(saved) : defaultGames;
     });
 
@@ -42,7 +45,7 @@ function HomePage() {
         const updatedGames = [...games, { id, name }];
 
         setGames(updatedGames);
-        localStorage.setItem("myGames", JSON.stringify(updatedGames));
+        localStorage.setItem(gamesStorageKey, JSON.stringify(updatedGames));
 
         setNewGame("");
         setShowAddGame(false);
